@@ -1,0 +1,142 @@
+local electricalPanel1PHASE = game.Workspace.Sound1["Electrical Panel 1 PHASE"]
+local hzValue = electricalPanel1PHASE.Values:WaitForChild("HzValue")
+local weld = electricalPanel1PHASE.AnalogMeter:WaitForChild("MHz"):WaitForChild("Weld")
+local c1 = weld.C1
+local mainPower = electricalPanel1PHASE.Values:WaitForChild("MainPower")
+
+local v = 0
+local x = weld.C1.Rotation.X
+local v2 = 0
+
+local hzDigital = electricalPanel1PHASE.DigitalMeter:WaitForChild("HzDigital")
+
+local sd1 = hzDigital:WaitForChild("SD1")
+local sd2 = hzDigital:WaitForChild("SD2")
+local sd3 = hzDigital:WaitForChild("SD3")
+local titik = hzDigital:WaitForChild("Titik")
+
+local v3 = {
+	[0] = { "D1", "D2", "D3", "D4", "D5", "D6" },
+	[1] = { "D2", "D3" },
+	[2] = { "D1", "D2", "D7", "D5", "D4" },
+	[3] = { "D1", "D2", "D7", "D3", "D4" },
+	[4] = { "D2", "D7", "D6", "D3" },
+	[5] = { "D1", "D6", "D7", "D3", "D4" },
+	[6] = { "D1", "D6", "D7", "D3", "D4", "D5" },
+	[7] = { "D1", "D2", "D3" },
+	[8] = { "D1", "D2", "D3", "D4", "D5", "D6", "D7" },
+	[9] = { "D1", "D2", "D3", "D4", "D6", "D7" }
+}
+
+local function setSegmentDisplay(instance, p, p2)
+	for _, part in pairs(instance:GetChildren()) do
+		if not part:IsA("BasePart") then
+			continue
+		end
+
+		if p2 then
+		end
+
+		part.Material = Enum.Material.SmoothPlastic
+		part.Color = Color3.new(0, 0, 0)
+	end
+
+	local v4 = p2 and v3[p]
+
+	if v4 then
+		for _, childName in ipairs(v4) do
+			local child = instance:FindFirstChild(childName)
+
+			if not child then
+				continue
+			end
+
+			child.Material = Enum.Material.Neon
+			child.Color = Color3.new(1, 1, 1)
+		end
+	end
+end
+
+local function updateSSD(value)
+	if mainPower.Value then
+		local v4 = math.floor(value)
+		local v5 = math.floor(value * 10 % 10 + 0.5)
+
+		local v6 = math.floor(v4 / 10) % 10
+		local v7 = v4 % 10
+
+		setSegmentDisplay(sd1, v6, true)
+		setSegmentDisplay(sd2, v7, true)
+		setSegmentDisplay(sd3, v5, true)
+
+		if titik then
+			titik.Material = Enum.Material.Neon
+			titik.Color = Color3.new(1, 1, 1)
+		else
+			titik.Material = Enum.Material.SmoothPlastic
+			titik.Color = Color3.new(0, 0, 0)
+		end
+	else
+		setSegmentDisplay(sd1, nil, false)
+		setSegmentDisplay(sd2, nil, false)
+		setSegmentDisplay(sd3, nil, false)
+
+		if titik then
+			titik.Material = Enum.Material.SmoothPlastic
+			titik.Color = Color3.new(0, 0, 0)
+		end
+	end
+end
+
+local function calculateAngle(p) -- 2 equivalent calls inferred from this helper
+	return (math.clamp((p - 45) / 20 * 90 + 0, 0, 90))
+end
+
+local RunService = game:GetService("RunService")
+
+local total = 0
+local v4 = 0
+RunService.Stepped:Connect(function(_, dt)
+	total += dt
+	v4 = dt
+
+	if total >= 0.075 then
+		local v5 = v2 - x
+
+		v += v5 * 0.3
+		v = math.clamp(v, -12, 12)
+
+		v *= 0.9
+
+		x += v
+
+		weld.C1 = c1 * CFrame.Angles(math.rad(x), 0, 0)
+		total = 0
+	end
+end)
+
+hzValue.Changed:Connect(function()
+	total += v4
+
+	if total >= 0.075 then
+		updateSSD(hzValue.Value)
+	end
+end)
+
+mainPower.Changed:Connect(function()
+	updateSSD(hzValue.Value)
+
+	if not mainPower.Value then
+		v2 = 0
+	end
+
+	if mainPower.Value then
+		v2 = calculateAngle(hzValue.Value) -- inferred equivalent call
+	end
+end)
+
+hzValue.Changed:Connect(function(p)
+	if mainPower.Value then
+		v2 = calculateAngle(p) -- inferred equivalent call
+	end
+end)

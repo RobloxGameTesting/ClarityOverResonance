@@ -1,0 +1,294 @@
+local v = {
+	92693761089521,
+	107821297160320,
+	128962890180136,
+	131884331203271,
+	103546576365414,
+	93517769407473,
+	114428978608823,
+	130924273423508,
+	105341275834178,
+	95845645450062,
+	117520575275579,
+	124203191918894,
+	114163136512853,
+	135677586808384,
+	135677586808384,
+	100912656314112,
+	129668886936946,
+	115658717145506,
+	86646144878822,
+	133427480623864,
+	129557848182709,
+	132221486163819,
+	135143100964607,
+	87779627144115,
+	78452404521753,
+	72426521219991,
+	106241342818833,
+	134752263329308,
+	96390531067191,
+	106916385072716,
+	121381740152209,
+	94428512057687,
+	116715234987032,
+	87637285607908,
+	119637215172828,
+	96259757094945,
+	78465888330807,
+	136454970162069,
+	80224133693925,
+	140649021603920,
+	101179121390158,
+	129483045173809,
+	133742233489663,
+	127288831702689,
+	119729125590241,
+	88894013880323,
+	87266943674594,
+	137550507556629,
+	76671802133527,
+	100944932814370,
+	95070410286711,
+	76769877418527,
+	90127105773804,
+	75988271666917,
+	82281750773005,
+	111323318745875,
+	83163958447737,
+	121072647202031,
+	101899186173893,
+	103212707814276,
+	97573298192100,
+	118822750411853,
+	111106803619442,
+	114482014498532,
+	90239050900351,
+	133759841876012,
+	131745011469239,
+	132154289244423,
+	113762280804012,
+	114455912518119,
+	88561685987730,
+	134541569169236,
+	88297892275070,
+	135681494786039,
+	71368447304771,
+	132467536796732,
+	75178505982780,
+	93905016866371,
+	131099200625841,
+	105385537940063,
+	126242783456451,
+	96421690492631,
+	126567695881876,
+	106526636635022,
+	133548939478576,
+	96437777505094,
+	135037284635153,
+	103578738873873,
+	84899245538654,
+	94936342441645,
+	126829275714135,
+	78871467348346,
+	98231135485261,
+	83531106266487,
+	107126475549532,
+	102975078690067,
+	113767083080790,
+	92930842823668,
+	117783413238183,
+	73778745284528,
+	99825224011532,
+	123990486288877,
+	139617623797963,
+	104066681294039,
+	101386986649702,
+	132969822729842,
+	117135250857179,
+	85676039637048,
+	78827355963428,
+	118381995759780,
+	112943032435461,
+	112961856965764,
+	97078585805236,
+	83586651817184,
+	77163132382054,
+	78520255343454,
+	134906361210920,
+	130272727060060,
+	83909607140599,
+	84491838886029,
+	123085016024248,
+	127724709908488,
+	108970832843108,
+	79358851532206,
+	107827252928476,
+	102029507866394,
+	77736522712499,
+	104622271204884,
+	88741835483241,
+	103409145303142,
+	119459128002188,
+	130901634585280,
+	72170426175378,
+	77933720942935,
+	113651461645682,
+	124768445389978,
+	87941161682577,
+	140510493288130,
+	101274579126444,
+	72390254123830,
+	103839465467040,
+	83735952178274,
+	74653302847587,
+	120593909781224,
+	105076864704164,
+	137316247796352,
+	107387692619879,
+	130466750120911,
+	97922700114667,
+	110710310194482
+}
+
+workspace.Sound1["Electrical Panel 1 PHASE"].Values:WaitForChild("MainPower")
+local m1 = workspace.Sound1.Tron1:WaitForChild("M1")
+local m2 = workspace.Sound1.Tron1:WaitForChild("M2")
+local m3 = workspace.Sound1.Tron1:WaitForChild("M3")
+local m4 = workspace.Sound1.Tron1:WaitForChild("M4")
+
+local m1_2 = workspace.Sound1.Tron2:WaitForChild("M1")
+local m2_2 = workspace.Sound1.Tron2:WaitForChild("M2")
+local m3_2 = workspace.Sound1.Tron2:WaitForChild("M3")
+local m4_2 = workspace.Sound1.Tron2:WaitForChild("M4")
+
+local v2 = {
+	m1:WaitForChild("Mesh"),
+	m2:WaitForChild("Mesh"),
+	m3:WaitForChild("Mesh"),
+	(m4:WaitForChild("Mesh"))
+}
+local v3 = { m1, m2, m3, m4 }
+local v4 = {
+	m1_2:WaitForChild("Mesh"),
+	m2_2:WaitForChild("Mesh"),
+	m3_2:WaitForChild("Mesh"),
+	(m4_2:WaitForChild("Mesh"))
+}
+local v5 = { m1_2, m2_2, m3_2, m4_2 }
+
+local function startImageSequence(p, p2)
+	local v6 = 1
+	local count = #v
+	local v7 = 1 / p
+	local total = 0
+
+	local RunService = game:GetService("RunService")
+	RunService.RenderStepped:Connect(function(dt)
+		total += dt
+
+		local v8 = total
+
+		if v7 + p2 <= v8 then
+			local v9 = (v6 - 1) % #v2 + 1
+			local v10 = (v6 - 1 + 3) % #v3 + 1
+
+			local v11 = (v6 - 1) % #v4 + 1
+			local v12 = (v6 - 1 + 3) % #v5 + 1
+
+			for i, v13 in ipairs(v2) do
+				if i == v9 then
+					v13.TextureId = "rbxassetid://" .. v[v6]
+				end
+			end
+
+			for i, v13 in ipairs(v4) do
+				if i == v11 then
+					v13.TextureId = "rbxassetid://" .. v[v6]
+				end
+			end
+
+			for i, v13 in ipairs(v3) do
+				if i == v10 then
+					v13.Transparency = 0
+				else
+					v13.Transparency = 0.99
+				end
+			end
+
+			for i, v13 in ipairs(v5) do
+				if i == v12 then
+					v13.Transparency = 0
+				else
+					v13.Transparency = 0.99
+				end
+			end
+
+			v6 += 1
+
+			if count < v6 then
+				v6 = 1
+			end
+
+			total = 0
+		end
+	end)
+end
+
+local v6 = 1
+local count = #v
+
+local total = 0
+
+local RunService = game:GetService("RunService")
+local v7 = 0.025
+local v8 = 0.08
+RunService.RenderStepped:Connect(function(dt)
+	total += dt
+
+	local v9 = total
+
+	if v7 + v8 <= v9 then
+		local v10 = (v6 - 1) % #v2 + 1
+		local v11 = (v6 - 1 + 3) % #v3 + 1
+
+		local v12 = (v6 - 1) % #v4 + 1
+		local v13 = (v6 - 1 + 3) % #v5 + 1
+
+		for i, v14 in ipairs(v2) do
+			if i == v10 then
+				v14.TextureId = "rbxassetid://" .. v[v6]
+			end
+		end
+
+		for i, v14 in ipairs(v4) do
+			if i == v12 then
+				v14.TextureId = "rbxassetid://" .. v[v6]
+			end
+		end
+
+		for i, v14 in ipairs(v3) do
+			if i == v11 then
+				v14.Transparency = 0
+			else
+				v14.Transparency = 0.99
+			end
+		end
+
+		for i, v14 in ipairs(v5) do
+			if i == v13 then
+				v14.Transparency = 0
+			else
+				v14.Transparency = 0.99
+			end
+		end
+
+		v6 += 1
+
+		if count < v6 then
+			v6 = 1
+		end
+
+		total = 0
+	end
+end)
